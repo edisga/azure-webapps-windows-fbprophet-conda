@@ -99,8 +99,7 @@ echo Detected requirements.txt. RUNNING CUSTOM DEPLOYMENT
 
 :: 2. Install packages
 echo Conda install requirements.
-echo %CONDA_PATH%
-D:\home\python36Condax64\miniconda3\python.exe -m  install --yes --file requirements.txt
+D:\home\python36Condax64\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
 IF !ERRORLEVEL! NEQ 0 goto error
 
 
