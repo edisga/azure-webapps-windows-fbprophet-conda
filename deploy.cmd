@@ -73,8 +73,6 @@ IF DEFINED KUDU_SELECT_PYTHON_VERSION_CMD (
   SET PYTHON_RUNTIME=python-3.6.5
   SET PYTHON_VER=3.6.5
   SET PYTHON_EXE=D:\home\python36Condax64\miniconda3\python.exe
-  SET PYTHON_ENV_MODULE=anaconda_env
-  SET CONDA_PATH=D:\home\python36Condax64\miniconda3\Scripts\conda.exe
 )
 
 goto :EOF
