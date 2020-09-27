@@ -49,64 +49,31 @@ IF NOT DEFINED KUDU_SYNC_CMD (
 )
 goto Deployment
 
-:: Utility Functions
-:: -----------------
-
-:SelectPythonVersion
-
-IF DEFINED KUDU_SELECT_PYTHON_VERSION_CMD (
-  call %KUDU_SELECT_PYTHON_VERSION_CMD% "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" "%DEPLOYMENT_TEMP%"
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET /P PYTHON_RUNTIME=<"%DEPLOYMENT_TEMP%\__PYTHON_RUNTIME.tmp"
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET /P PYTHON_VER=<"%DEPLOYMENT_TEMP%\__PYTHON_VER.tmp"
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET /P PYTHON_EXE=<"%DEPLOYMENT_TEMP%\__PYTHON_EXE.tmp"
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET /P PYTHON_ENV_MODULE=<"%DEPLOYMENT_TEMP%\__PYTHON_ENV_MODULE.tmp"
-  IF !ERRORLEVEL! NEQ 0 goto error
-) ELSE (
-  SET PYTHON_RUNTIME=python-3.6.5
-  SET PYTHON_VER=3.6.5
-  SET PYTHON_EXE=D:\home\python36Condax64\miniconda3\python.exe
-)
-
-goto :EOF
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
 :: ----------
 
 :Deployment
-echo Handling python deployment.
+echo Handling Python deployment.
 
 :: 1. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
-
-IF NOT EXIST "%DEPLOYMENT_TARGET%\requirements.txt" goto postPython
-IF EXIST "%DEPLOYMENT_TARGET%\.skipPythonDeployment" goto postPython
-
-echo Detected requirements.txt. RUNNING CUSTOM DEPLOYMENT
-
 :: 2. Install packages
-
 ::echo Conda installing fbprophet
 ::conda install --yes -c conda-forge fbprophet
-echo Conda install requirements.
-D:\home\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
-IF !ERRORLEVEL! NEQ 0 goto error
-
-
-popd
-
-:postPython
+echo "%DEPLOYMENT_TARGET%"
+IF EXIST "%DEPLOYMENT_TARGET%\requirements.txt" (
+   echo Detected requirements.txt.
+   echo Conda install requirements. 
+   pushd "%DEPLOYMENT_TARGET%"
+   call :ExecuteCmd D:\home\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
+   IF !ERRORLEVEL! NEQ 0 goto error
+   popd
+)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
