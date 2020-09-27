@@ -100,7 +100,7 @@ echo Detected requirements.txt. RUNNING CUSTOM DEPLOYMENT
 ::echo Conda installing fbprophet
 ::conda install --yes -c conda-forge fbprophet
 echo Conda install requirements.
-D:\home\miniconda3\Scripts\conda install --yes --file requirements.txt
+D:\home\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
 IF !ERRORLEVEL! NEQ 0 goto error
 
 
