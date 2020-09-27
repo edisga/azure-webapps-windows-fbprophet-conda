@@ -70,7 +70,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\requirements.txt" (
    echo Detected requirements.txt.
    echo Conda install requirements. 
    pushd "%DEPLOYMENT_TARGET%"
-   call D:\home\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
+   call D:\home\site\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
    IF !ERRORLEVEL! NEQ 0 goto error
    popd
 )
