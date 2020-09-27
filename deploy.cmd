@@ -63,14 +63,14 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 :: 2. Install packages
-::echo Conda installing fbprophet
-::conda install --yes -c conda-forge fbprophet
 echo "%DEPLOYMENT_TARGET%"
 IF EXIST "%DEPLOYMENT_TARGET%\requirements.txt" (
    echo Detected requirements.txt.
    echo Conda install requirements. 
    pushd "%DEPLOYMENT_TARGET%"
    call D:\home\site\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
+   echo Conda installing fbprophet
+   call D:\home\site\miniconda3\Scripts\conda.exe install --yes -c conda-forge fbprophet
    IF !ERRORLEVEL! NEQ 0 goto error
    popd
 )
