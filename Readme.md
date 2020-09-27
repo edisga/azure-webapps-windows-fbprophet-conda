@@ -9,3 +9,5 @@
 - Since this sample is using custom deployment script, the script has two phases, one installing all requirements.txt with libraries needed, and then installing just fbprophet as followed:
    - D:\home\site\miniconda3\Scripts\conda.exe install --yes --file requirements.txt
    - D:\home\site\miniconda3\Scripts\conda.exe install --yes -c conda-forge fbprophet
+- This deployment process can take more than 15 mins. You will need to increase this parameter
+`SCM_COMMAND_IDLE_TIMEOUT` `https://github.com/projectkudu/kudu/wiki/Configurable-settings#changing-the-timeout-before-external-commands-are-killed`
